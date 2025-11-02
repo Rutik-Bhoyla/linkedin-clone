@@ -8,7 +8,14 @@ const Login = () => {
     password: ""
   });
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // ✅ New state
   const navigate = useNavigate();
+
+  // ✅ Email Validation Function
+  const isValidEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,17 +23,23 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // ✅ Validate email before sending API request
+    if (!isValidEmail(formData.email)) {
+      setMessage("Please enter a valid email address ❌");
+      return;
+    }
+
     setMessage("Logging in...");
 
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", formData);
 
-      // ✅ store token and user in localStorage
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
       setMessage("Login successful ✅");
-      navigate("/feed"); // redirect to Feed page after login
+      navigate("/feed");
 
     } catch (err) {
       setMessage(err.response?.data?.msg || "Invalid credentials ❌");
@@ -34,34 +47,63 @@ const Login = () => {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", padding: "20px" }}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        /><br /><br />
+    <div className="w-full h-screen bg-zinc-100 flex justify-center items-center">
+      <div className="min-w-96 bg-white flex flex-col rounded-2xl max-w-[25%] h-[65%] shadow-xl p-10 gap-8 justify-center">
+        <h1 className="text-4xl font-semibold">Sign in</h1>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        /><br /><br />
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+          {/* Email input */}
+          <input
+            className="w-full h-9 rounded-sm outline-blue-500 border p-3"
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
 
-        <button type="submit">Login</button>
-      </form>
-      
-      <p style={{ color: "red" }}>{message}</p>
+          {/* Password input with visibility toggle */}
+          <div className="relative">
+            <input
+              className="w-full h-9 rounded-sm outline-blue-500 border p-3 pr-12"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <button
+              type="button"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-blue-600"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
 
-      <p>Don't have an account? <a href="/">Register here</a></p>
+          <a className="text-blue-700 font-semibold" href="#">
+            Forgot password?
+          </a>
+
+          {/* Updated Button Label */}
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white text-md font-semibold rounded-sm py-2"
+          >
+            Login
+          </button>
+        </form>
+
+        <p className="text-red-600">{message}</p>
+        <p>
+          Don't have an account?{" "}
+          <a className="text-blue-700 font-semibold" href="/">
+            Register Here
+          </a>
+        </p>
+      </div>
     </div>
   );
 };
