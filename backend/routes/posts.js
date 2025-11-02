@@ -19,4 +19,12 @@ router.post('/', auth, async (req,res)=>{
 });
 
 
+// GET /api/posts - get all posts (latest first)
+router.get('/', async (req,res)=>{
+  try {
+    const posts = await Post.find().sort({ createdAt: -1 });
+    res.json(posts);
+  } catch(err){ res.status(500).send('Server error'); }
+});
+
 module.exports = router;
