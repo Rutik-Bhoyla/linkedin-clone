@@ -27,4 +27,17 @@ router.get('/', async (req,res)=>{
   } catch(err){ res.status(500).send('Server error'); }
 });
 
+// POST /api/posts/:id/comment - add comment
+router.post('/:id/comment', auth, async (req,res)=>{
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    const post = await Post.findById(req.params.id);
+    if(!post) return res.status(404).json({ msg: 'Post not found' });
+    const comment = { userId: req.user.id, name: user.name, text: req.body.text };
+    post.comments.unshift(comment);
+    await post.save();
+    res.json(post.comments);
+  } catch(err){ res.status(500).send('Server error'); }
+});
+
 module.exports = router;
