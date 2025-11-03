@@ -1,18 +1,26 @@
 import { useState } from "react";
-import { FaRegComment, FaRegHeart, FaHeart } from "react-icons/fa";
+import { FaRegComment, FaRegHeart, FaHeart, FaTrash, FaEdit } from "react-icons/fa";
 import axios from "axios";
 
-const PostCard = ({ post }) => {
+const PostCard = ({
+  post,
+  editable = false, 
+  onDelete = () => {}, 
+  onEdit = () => {}
+}) => {
   const [showComments, setShowComments] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState(post.comments || []);
   const [likes, setLikes] = useState(post.likes || []);
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
+
   const [liked, setLiked] = useState(
-    localStorage.getItem("userId") && post.likes.includes(localStorage.getItem("userId"))
+    userId && post.likes.includes(userId)
   );
 
-  const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId"); // store current user id on login
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(post.content);
 
   const timeAgo = (date) => {
     const seconds = Math.floor((new Date() - new Date(date)) / 1000);
@@ -59,23 +67,70 @@ const PostCard = ({ post }) => {
     }
   };
 
+  const handleSaveEdit = () => {
+    onEdit(editContent);
+    setIsEditing(false);
+  };
+
   return (
     <div className="bg-zinc-900 text-white shadow-md rounded-xl p-4 w-full max-w-[600px] mx-auto border border-zinc-700 hover:shadow-xl transition">
-      
+
       {/* Top Bar */}
       <div className="flex items-center justify-between mb-3">
         <div>
           <h2 className="font-semibold text-sm">{post.name}</h2>
           <p className="text-xs text-zinc-400">{timeAgo(post.createdAt)}</p>
         </div>
-        {/* Optional: More options button */}
-        <button className="text-zinc-400 hover:text-white text-sm">•••</button>
+        {editable && (
+          <div className="flex items-center gap-3">
+            {/* Edit Icon */}
+            {!isEditing && (
+              <FaEdit
+                className="text-blue-400 hover:text-blue-500 cursor-pointer"
+                onClick={() => setIsEditing(true)}
+              />
+            )}
+
+            {/* Delete Icon */}
+            <FaTrash
+              className="text-red-400 hover:text-red-500 cursor-pointer"
+              onClick={onDelete}
+            />
+          </div>
+        )}
       </div>
 
       {/* Content */}
-      <div className="mt-2 whitespace-pre-wrap break-words text-sm">{post.content}</div>
+      <div className="mt-2 whitespace-pre-wrap wrap-break-words text-sm">
+        {isEditing ? (
+          <div className="flex flex-col gap-2">
+            <textarea
+              className="bg-zinc-800 text-white p-2 rounded-md w-full"
+              rows={4}
+              value={editContent}
+              onChange={(e) => setEditContent(e.target.value)}
+            />
+            <div className="flex gap-2">
+              <button
+                className="bg-green-600 px-3 py-1 rounded hover:bg-green-700"
+                onClick={handleSaveEdit}
+              >
+                Save
+              </button>
+              <button
+                className="bg-gray-600 px-3 py-1 rounded hover:bg-gray-700"
+                onClick={() => { setIsEditing(false); setEditContent(post.content); }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          post.content
+        )}
+      </div>
 
-      {/* Action Buttons */}
+      {/* Like & Comment buttons */}
       <div className="flex items-center gap-6 mt-4 pt-2 border-t border-zinc-700">
         <button
           className={`flex items-center gap-2 ${liked ? "text-red-500" : "hover:text-blue-500"}`}

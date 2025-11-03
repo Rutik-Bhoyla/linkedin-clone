@@ -8,7 +8,7 @@ const CreatePost = ({ closeModal, addPost }) => {
     if (!content.trim()) return;
 
     try {
-      const token = localStorage.getItem("token"); // assuming token is stored here
+      const token = localStorage.getItem("token");
 
       const res = await axios.post(
         "http://localhost:5000/api/posts",

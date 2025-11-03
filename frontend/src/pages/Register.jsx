@@ -10,10 +10,10 @@ const Register = () => {
   });
 
   const [message, setMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // ✅ Password toggle state
+  const [showPassword, setShowPassword] = useState(false); // Password toggle state
   const navigate = useNavigate();
 
-  // ✅ Email Validation Pattern
+  // Email Validation Pattern
   const isValidEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
@@ -26,7 +26,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ Email validation logic
+    // Email validation logic
     if (!isValidEmail(formData.email)) {
       setMessage("Please enter a valid email address ❌");
       return;
@@ -44,7 +44,7 @@ const Register = () => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      setMessage("Registered successfully ✅");
+      setMessage("Registered successfully");
       navigate("/feed"); // Redirect to feed page
     } catch (err) {
       console.error(err);

@@ -17,18 +17,26 @@ const Navbar = () => {
     localStorage.removeItem("user");
     navigate("/login");
   };
+   const goToMyPosts = () => {
+    navigate("/myposts"); // Redirect to MyPosts page
+  };
 
   return (
     <nav className="w-full bg-zinc-900 border-b border-zinc-500 shadow-md px-50 py-3 flex justify-between items-center fixed top-0 left-0">
       {/* Logo / App Name */}
       
-        {/* <img src="src/assets/logo.svg" alt="" /> */}
-        <h1 className="text-blue-700 font-bold text-2xl">LinkedIn Clone</h1>
+        <h1 className="text-blue-700 font-bold text-2xl"><a href="/">LinkedIn Clone</a></h1>
 
       {/* Right side */}
       <div className="flex items-center gap-5">
         {user && <p className="font-medium text-white">Hi, {user.name}</p>}
 
+        <button
+          onClick={goToMyPosts}
+          className="px-4 py-1 bg-zinc-600 text-white font-semibold rounded-2xl hover:bg-blue-400 transition"
+        >
+          My Posts
+        </button>
         <button
           onClick={handleLogout}
           className="px-4 py-1 bg-red-600 text-white font-semibold rounded-2xl hover:bg-red-400 transition"

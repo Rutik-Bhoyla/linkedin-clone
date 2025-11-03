@@ -8,10 +8,10 @@ const Login = () => {
     password: ""
   });
   const [message, setMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // ✅ New state
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  // ✅ Email Validation Function
+  // Email Validation Function
   const isValidEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
@@ -24,7 +24,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ Validate email before sending API request
+    // Validate email before sending API request
     if (!isValidEmail(formData.email)) {
       setMessage("Please enter a valid email address ❌");
       return;
@@ -38,11 +38,11 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      setMessage("Login successful ✅");
+      setMessage("Login successful");
       navigate("/feed");
 
     } catch (err) {
-      setMessage(err.response?.data?.msg || "Invalid credentials ❌");
+      setMessage(err.response?.data?.msg || "Invalid credentials");
     }
   };
 
