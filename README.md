@@ -107,15 +107,3 @@ React app runs on `http://localhost:5173`.
 
 ---
 
-## Screenshots
-
-**Desktop Feed:**
-
-![Desktop Feed](screenshots/desktop-feed.png)
-
-**Mobile Feed with Popup Create Post:**
-
-![Mobile Feed](screenshots/mobile-popup.png)
-
----
-
