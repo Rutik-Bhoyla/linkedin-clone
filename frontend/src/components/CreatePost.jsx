@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const CreatePost = ({ closeModal, addPost }) => {
   const [content, setContent] = useState("");
 
@@ -11,7 +13,7 @@ const CreatePost = ({ closeModal, addPost }) => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:5000/api/posts",
+        `${BACKEND_URL}/api/posts`,
         { content },
         {
           headers: { Authorization: `Bearer ${token}` },

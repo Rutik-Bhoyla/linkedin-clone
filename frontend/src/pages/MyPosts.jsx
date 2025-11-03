@@ -3,6 +3,8 @@ import axios from "axios";
 import PostCard from "../components/PostCard";
 import Navbar from "../components/Navbar";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const MyPosts = () => {
   const [posts, setPosts] = useState([]);
   const token = localStorage.getItem("token");
@@ -10,7 +12,7 @@ const MyPosts = () => {
   useEffect(() => {
     const fetchMyPosts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/posts/myposts", {
+        const res = await axios.get(`${BACKEND_URL}/api/posts/myposts`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setPosts(res.data);
@@ -25,7 +27,7 @@ const MyPosts = () => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${postId}`, {
+      await axios.delete(`${BACKEND_URL}/api/posts/${postId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPosts(posts.filter(p => p._id !== postId));
@@ -37,7 +39,7 @@ const MyPosts = () => {
   const handleEdit = async (postId, newContent) => {
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/posts/${postId}`,
+        `${BACKEND_URL}/api/posts/${postId}`,
         { content: newContent },
         { headers: { Authorization: `Bearer ${token}` } }
       );

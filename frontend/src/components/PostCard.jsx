@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FaRegComment, FaRegHeart, FaHeart, FaTrash, FaEdit } from "react-icons/fa";
 import axios from "axios";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const PostCard = ({
   post,
   editable = false, 
@@ -42,7 +44,7 @@ const PostCard = ({
     if (!commentText.trim()) return;
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/posts/${post._id}/comment`,
+        `${BACKEND_URL}/api/posts/${post._id}/comment`,
         { text: commentText },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -56,7 +58,7 @@ const PostCard = ({
   const handleLike = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/posts/${post._id}/like`,
+        `${BACKEND_URL}/api/posts/${post._id}/like`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

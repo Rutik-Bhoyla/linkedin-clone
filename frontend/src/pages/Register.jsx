@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -36,7 +38,7 @@ const Register = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${BACKEND_URL}/api/auth/register`,
         formData
       );
 

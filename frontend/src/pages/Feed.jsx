@@ -5,6 +5,8 @@ import CreatePost from "../components/CreatePost";
 import Navbar from "../components/Navbar";
 import { FaPlus } from "react-icons/fa";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -13,7 +15,7 @@ const Feed = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/posts");
+        const res = await axios.get(`${BACKEND_URL}/api/posts`);
         setPosts(res.data);
       } catch (error) {
         console.error("Error fetching posts:", error);
