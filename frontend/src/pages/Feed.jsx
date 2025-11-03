@@ -6,7 +6,6 @@ import Navbar from "../components/Navbar";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
 
   // Fetch posts from backend
   useEffect(() => {
@@ -27,37 +26,27 @@ const Feed = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 relative">
-      <Navbar/>
-      <h1 className="text-2xl font-bold mb-4">LinkedIn Feed</h1>
+    <div className="min-h-screen bg-black mt-2">
+      <Navbar />
 
-      {/* Render all posts */}
-      {posts.map((post) => (
-        <PostCard key={post._id} post={post} />
-      ))}
+      {/* Main layout */}
+      <div className="pt-16 max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3">
 
-      {/* Floating Create Post Button */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-blue-600 text-white text-3xl flex items-center justify-center shadow-lg hover:bg-blue-700 transition"
-      >
-        +
-      </button>
-
-      {/* Modal */}
-      {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md relative">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-            >
-              ✖
-            </button>
-            <CreatePost closeModal={() => setIsOpen(false)} addPost={addPost} />
+        {/* Left Column: Sticky CreatePost */}
+        <div className="md:col-span-1">
+          <div className="sticky top-20 bg-zinc-900 text-white p-4 rounded-lg shadow-md h-[430px]">
+            <CreatePost addPost={addPost} />
           </div>
         </div>
-      )}
+
+        {/* Right Column: Scrollable Feed */}
+        <div className="md:col-span-2 space-y-4">
+          {posts.map((post) => (
+            <PostCard key={post._id} post={post} />
+          ))}
+        </div>
+
+      </div>
     </div>
   );
 };

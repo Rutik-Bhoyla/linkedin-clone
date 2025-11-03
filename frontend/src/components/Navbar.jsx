@@ -19,22 +19,19 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full bg-white shadow-md px-6 py-3 flex justify-between items-center fixed top-0 left-0">
+    <nav className="w-full bg-zinc-900 border-b border-zinc-500 shadow-md px-50 py-3 flex justify-between items-center fixed top-0 left-0">
       {/* Logo / App Name */}
-      <h1
-        onClick={() => navigate("/feed")}
-        className="text-xl font-bold text-blue-600 cursor-pointer"
-      >
-        LinkedIn Clone
-      </h1>
+      
+        {/* <img src="src/assets/logo.svg" alt="" /> */}
+        <h1 className="text-blue-700 font-bold text-2xl">LinkedIn Clone</h1>
 
       {/* Right side */}
       <div className="flex items-center gap-5">
-        {user && <p className="font-medium">Hi, {user.name}</p>}
+        {user && <p className="font-medium text-white">Hi, {user.name}</p>}
 
         <button
           onClick={handleLogout}
-          className="px-4 py-1 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition"
+          className="px-4 py-1 bg-red-600 text-white font-semibold rounded-2xl hover:bg-red-400 transition"
         >
           Logout
         </button>

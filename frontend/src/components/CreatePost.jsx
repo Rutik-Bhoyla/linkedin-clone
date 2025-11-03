@@ -30,19 +30,20 @@ const CreatePost = ({ closeModal, addPost }) => {
 
   return (
     <div className="space-y-4">
-      <h2 className="font-bold text-lg">Create a Post</h2>
+      <h2 className="font-bold text-lg ">Create a Post</h2>
 
       <textarea
-        className="w-full min-h-72 border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:border-blue-500"
+        className="w-full min-h-72 border border-zinc-600 rounded-lg p-2 focus:outline-none focus:ring focus:border-blue-500 placeholder:text-zinc-300"
         rows={4}
         placeholder="What do you want to talk about?"
         value={content}
         onChange={(e) => setContent(e.target.value)}
       ></textarea>
 
+      
       <button
         onClick={handlePost}
-        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+        className="bg-blue-600 text-white px-6 py-1 rounded-4xl hover:bg-blue-700 transition"
       >
         Post
       </button>
