@@ -40,7 +40,7 @@ router.post('/:id/comment', auth, async (req,res)=>{
   } catch(err){ res.status(500).send('Server error'); }
 });
 
-// POST /api/posts/:id/like - like toggle
+
 router.post('/:id/like', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -64,6 +64,8 @@ router.post('/:id/like', auth, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+
 
 
 

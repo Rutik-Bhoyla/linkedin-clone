@@ -55,7 +55,7 @@ const PostCard = ({
     }
   };
 
-  const handleLike = async () => {
+const handleLike = async () => {
   if (!token) return alert("You must be logged in to like posts!");
 
   try {
@@ -72,6 +72,7 @@ const PostCard = ({
     console.error("Error toggling like:", err);
   }
 };
+
 
 
   const handleSaveEdit = () => {
