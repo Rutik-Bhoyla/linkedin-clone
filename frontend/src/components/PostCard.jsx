@@ -56,18 +56,23 @@ const PostCard = ({
   };
 
   const handleLike = async () => {
-    try {
-      const res = await axios.post(
-        `${BACKEND_URL}/api/posts/${post._id}/like`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setLikes(res.data.likes);
-      setLiked(res.data.likes.includes(userId));
-    } catch (err) {
-      console.error("Error toggling like:", err);
-    }
-  };
+  if (!token) return alert("You must be logged in to like posts!");
+
+  try {
+    const res = await axios.post(
+      `${BACKEND_URL}/api/posts/${post._id}/like`,
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    // Update likes array and liked state from response
+    setLikes(res.data.likes);
+    setLiked(res.data.liked);
+  } catch (err) {
+    console.error("Error toggling like:", err);
+  }
+};
+
 
   const handleSaveEdit = () => {
     onEdit(editContent);

@@ -40,13 +40,13 @@ router.post('/:id/comment', auth, async (req,res)=>{
   } catch(err){ res.status(500).send('Server error'); }
 });
 
-// POST /api/posts/:id/like - toggle like
+// POST /api/posts/:id/like - like toggle
 router.post('/:id/like', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ msg: 'Post not found' });
 
-    const userId = req.user.id;
+    const userId = req.user.id; // will now work
     if (post.likes.includes(userId)) {
       // unlike
       post.likes = post.likes.filter(id => id !== userId);
@@ -56,12 +56,15 @@ router.post('/:id/like', auth, async (req, res) => {
     }
 
     await post.save();
-    res.json({ likes: post.likes });
+
+    // return updated likes and whether current user liked
+    res.json({ likes: post.likes, liked: post.likes.includes(userId) });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 });
+
 
 
 // PUT /api/posts/:id - update post
